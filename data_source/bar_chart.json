@@ -1,0 +1,47 @@
+{
+	"Month 1": [
+		{
+			"Class 1": 13
+		}, {
+			"Class 2": 28
+		}, {
+			"Class 3": 48
+		}, {
+			"Class 4": 36
+		}, {
+			"Class 5": 26
+		}, {
+			"Class 6": 47
+		}
+	],
+	"Month 2": [
+		{
+			"Class 1": 37
+		}, {
+			"Class 2": 57
+		}, {
+			"Class 3": 16
+		}, {
+			"Class 4": 34
+		}, {
+			"Class 5": 24
+		}, {
+			"Class 6": 15
+		}
+	],
+	"Month 3": [
+		{
+			"Class 1": 46
+		}, {
+			"Class 2": 17
+		}, {
+			"Class 3": 28
+		}, {
+			"Class 4": 36
+		}, {
+			"Class 5": 26
+		}, {
+			"Class 6": 14
+		}
+	]
+}

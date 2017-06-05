@@ -1,0 +1,35 @@
+{
+	"Part 1": [
+		{
+			"Period 1": 10
+		}, {
+			"Period 2": 20
+		}, {
+			"Period 3": 30
+		}, {
+			"Period 4": 40
+		}
+	],
+	"Part 2": [
+		{
+			"Period 1": 20
+		}, {
+			"Period 2": 30
+		}, {
+			"Period 3": 40
+		}, {
+			"Period 4": 50
+		}
+	],
+	"Part 3": [
+		{
+			"Period 1": 15
+		}, {
+			"Period 2": 25
+		}, {
+			"Period 3": 35
+		}, {
+			"Period 4": 45
+		}
+	]
+}
