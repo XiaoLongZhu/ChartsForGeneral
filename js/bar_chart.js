@@ -126,14 +126,15 @@ BarChart.graphRender = function(data, parameters, div_id) {
 				var x_value = x_scale(x_name) +
 					margin.left +
 					padding * category_count +
-					((x_scale.bandwidth() / category_count) / 6) +
 					(x_scale.bandwidth() / category_count - padding * 2) * i;
-				return x_value;
+				var offset_text = (x_scale.bandwidth() / category_count - padding * 2) / 2 - 6;
+				return x_value + offset_text;
 			})
 			.attr("y", function(d) {
 				var y_value = Object.values(d)[0];
 				return margin.top / 2 + y_scale(y_value);
 			})
+			.attr("font-size", "10px")
 			.text(function(d, i) {
 				var y_value = Object.values(d)[0];
 				return y_value;

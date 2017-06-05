@@ -14,7 +14,7 @@ $(document).ready(function() {
 			"right": 30,
 			"bottom": 30
 		},
-		"category": ["Month 1", "Month 2"]
+		"category": ["Month 1", "Month 2", "Month 3"]
 	};
 	var div_id_bar_chart = "#bar_chart";
 	BarChart.initGraph(data_source, parameters_bar_chart, div_id_bar_chart);
@@ -37,7 +37,7 @@ $(document).ready(function() {
 
 	data_source = "data_source/bar_chart_overall.json";
 	var parameters_bar_chart_overall = {
-		"height": 125,
+		"height": 150,
 		"width": 600,
 		"bar_width": 15,
 		"margin": {
@@ -49,8 +49,8 @@ $(document).ready(function() {
 		"category": ["Group 1", "Group 2"],
 		"y_axis": false,
 		"min_width_text": 40,
-		"width_text_factor": 0.7,
-		"width_text_margin": 1.2
+		"width_text_factor": 0.9,
+		"width_text_margin": 1.1
 	};
 	var div_id_bar_chart_overall = "#bar_chart_overall";
 	BarChartOverall.initGraph(data_source, parameters_bar_chart_overall, div_id_bar_chart_overall);

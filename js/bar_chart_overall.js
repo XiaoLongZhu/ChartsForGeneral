@@ -110,7 +110,7 @@ BarChartOverall.graphRender = function(data, parameters, div_id) {
 				return y_position + margin.top + padding * width_text_factor;
 			})
 			.attr("fill", "#ffffff")
-			.attr("style", "stroke-width:1; stroke:#000000")
+			.attr("style", "stroke-width:1; stroke:#808080;")
 			.attr("width", function(d) {
 				var rect_width = x_scale(d);
 				if(rect_width < min_width_text) {
@@ -132,12 +132,23 @@ BarChartOverall.graphRender = function(data, parameters, div_id) {
 					var bar_length = x_scale(Object.values(group_i[k])[0]);
 					start_point = start_point + bar_length;
 				}
-				return margin.left + start_point + x_scale(d) - min_width_text * width_text_margin / 1.5;
+
+				var rect_width = x_scale(d);
+				var x_offset_text = 0;
+				if(rect_width < min_width_text) {
+					x_offset_text = 0;
+				} else {
+					x_offset_text = min_width_text / 2 - 6;
+				}
+				return margin.left + start_point + x_scale(d) - min_width_text * width_text_margin + x_offset_text;
 			})
 			.attr("y", function(d) {
 				var y_position = y_scale(category[i]);
-				return y_position + margin.top + y_scale.bandwidth() / 2 + padding * width_text_factor;
+				//return y_position + margin.top + y_scale.bandwidth() / 2 + padding * width_text_factor;
+				var y_offset_text = (y_scale.bandwidth() - padding * width_text_factor * 2) / 2 - 5;
+				return y_position + margin.top + padding * width_text_factor + 10 + y_offset_text;
 			})
+			.attr("font-size", "10px")
 			.text(function(d, i) {
 				return d;
 			});
