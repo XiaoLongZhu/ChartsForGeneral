@@ -109,6 +109,10 @@ LineChart.graphRender = function(data, parameters, div_id) {
 		});
 
 	var line_width = parameters["line_width"];
+	var text_offset_x = parameters["text_offset_x"];
+	var text_offset_y = parameters["text_offset_y"];
+	var text_box_width = parameters["text_box_width"];
+	var text_box_height = parameters["text_box_height"];
 	for(var i = 0; i < category.length; i++) {
 		var current_cate = data[category[i]];
 		svg.selectAll("path.line_" + i)
@@ -118,7 +122,52 @@ LineChart.graphRender = function(data, parameters, div_id) {
 			.attr("class", "line_" + i)
 			.attr("fill", "none")
 			.attr("style", "stroke-width:" + line_width + "; stroke:" + colors[i])
+			.attr("stroke-linecap", "round")
 			.attr("d", graph_line);
+
+		svg.selectAll("rect.line_text_" + i)
+			.data(current_cate)
+			.enter()
+			.append("rect")
+			.attr("class", "line_text_" + i)
+			.attr("rx", 5)
+			.attr("ry", 5)
+			.attr("x", function(d) {
+				var x_name = Object.keys(d)[0];
+				var x_value = x_scale(x_name);
+				return x_value + margin.left - text_offset_x;
+			})
+			.attr("y", function(d) {
+				var y_value = Object.values(d)[0];
+				return margin.top + y_scale(y_value) - text_offset_y;
+			})
+			.attr("fill", "#ffffff")
+			.attr("style", "stroke-width:1; stroke:#808080;")
+			.attr("width", text_box_width)
+			.attr("height", text_box_height);
+
+		svg.selectAll("text.line_count_" + i)
+			.data(current_cate)
+			.enter()
+			.append("text")
+			.attr("class", "line_count_" + i)
+			.attr("x", function(d) {
+				var x_name = Object.keys(d)[0];
+				var x_value = x_scale(x_name);
+				var offset = text_box_width / 2 - 5;
+				return x_value + margin.left + offset - text_offset_x;
+			})
+			.attr("y", function(d) {
+				var y_value = Object.values(d)[0];
+				var offset = text_box_height / 2 + 5;
+				return margin.top + y_scale(y_value) - text_offset_y + offset;
+			})
+			.attr("font-size", "10px")
+			.text(function(d) {
+				var y_value = Object.values(d)[0];
+				return y_value;
+			});
+
 	}
 
 };

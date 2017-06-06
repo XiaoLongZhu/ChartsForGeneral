@@ -46,7 +46,7 @@ $(document).ready(function() {
 			"right": 30,
 			"bottom": 10
 		},
-		"category": ["Group 1", "Group 2"],
+		"category": ["Group 1", "Group 2", "Group 3"],
 		"y_axis": false,
 		"min_width_text": 40,
 		"width_text_factor": 0.9,
@@ -60,10 +60,14 @@ $(document).ready(function() {
 		"height": 450,
 		"width": 600,
 		"padding": 0.5, //0-1
-		"line_width": 3,
+		"line_width": 5,
 		"x_axis": false,
 		"y_axis": false,
 		"grid_lines": true,
+		"text_offset_x": 17.5,
+		"text_offset_y": 25,
+		"text_box_width": 35,
+		"text_box_height": 20,
 		"margin": {
 			"top": 30,
 			"left": 40,
