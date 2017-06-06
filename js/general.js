@@ -59,7 +59,8 @@ $(document).ready(function() {
 	var parameters_line_chart = {
 		"height": 450,
 		"width": 600,
-		"bar_width": 5,
+		"padding": 0.5, //0-1
+		"line_width": 3,
 		"x_axis": false,
 		"y_axis": false,
 		"grid_lines": true,
@@ -69,7 +70,7 @@ $(document).ready(function() {
 			"right": 30,
 			"bottom": 30
 		},
-		"category": ["Part 1", "Part 2"]
+		"category": ["Part 1", "Part 2", "Part 3"]
 	};
 	var div_id_line_chart = "#line_chart";
 	LineChart.initGraph(data_source, parameters_line_chart, div_id_line_chart);

@@ -81,7 +81,7 @@ BarChart.graphRender = function(data, parameters, div_id) {
 				.tickFormat("")
 			);
 		svg_axes.selectAll(".grid_lines .tick line")
-			.attr("style", "stroke-width:1; stroke:#808080; opacity: 0.5;");
+			.attr("style", "stroke-width:1; stroke:#808080; opacity: 0.5");
 		$(div_id + " .grid_lines path").hide();
 	}
 
