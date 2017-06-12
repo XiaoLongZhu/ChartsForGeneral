@@ -113,9 +113,11 @@ LineChart.graphRender = function(data, parameters, div_id) {
 	var text_offset_y = parameters["text_offset_y"];
 	var text_box_width = parameters["text_box_width"];
 	var text_box_height = parameters["text_box_height"];
+	var line_group = svg.append("g")
+		.attr("class", "line_g");
 	for(var i = 0; i < category.length; i++) {
 		var current_cate = data[category[i]];
-		svg.selectAll("path.line_" + i)
+		line_group.selectAll("path.line_" + i)
 			.data([current_cate])
 			.enter()
 			.append("path")
@@ -125,7 +127,7 @@ LineChart.graphRender = function(data, parameters, div_id) {
 			.attr("stroke-linecap", "round")
 			.attr("d", graph_line);
 
-		svg.selectAll("rect.line_text_" + i)
+		line_group.selectAll("rect.line_text_" + i)
 			.data(current_cate)
 			.enter()
 			.append("rect")
@@ -146,7 +148,7 @@ LineChart.graphRender = function(data, parameters, div_id) {
 			.attr("width", text_box_width)
 			.attr("height", text_box_height);
 
-		svg.selectAll("text.line_count_" + i)
+		line_group.selectAll("text.line_count_" + i)
 			.data(current_cate)
 			.enter()
 			.append("text")
@@ -168,6 +170,19 @@ LineChart.graphRender = function(data, parameters, div_id) {
 				return y_value;
 			});
 
+	}
+
+	var if_title = parameters["if_title"];
+	if(if_title == true) {
+		var title = parameters["title"];
+		var title_font = parameters["title_font"];
+		var title_left = parameters["title_left"];
+		svg.append("text")
+			.attr("class", "line_chart_title")
+			.attr("x", title_left)
+			.attr("y", (margin.top - title_font.substring(0, 2)) / 2)
+			.attr("style", "font-size:" + title_font)
+			.text(title);
 	}
 
 };

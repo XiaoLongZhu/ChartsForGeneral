@@ -73,9 +73,11 @@ PieChart.graphRender = function(data, parameters, div_id) {
 		.attr("transform", "translate(" +
 			(radius + margin.left) +
 			"," +
-			radius + ")");
+			(radius + margin.top) + ")");
 
-	var slices = pie_body.selectAll("path.arc")
+	var pie_slices = pie_body.append("g")
+		.attr("class", "slices_g");
+	var slices = pie_slices.selectAll("path.arc")
 		.data(pie_function(category_data_total))
 		.enter()
 		.append("path")
@@ -112,13 +114,14 @@ PieChart.graphRender = function(data, parameters, div_id) {
 		.append("text")
 		.attr("class", "details_info")
 		.attr("x", function(d, i) {
+			//console.log(arc.centroid(d));
 			return arc.centroid(d)[0];
 		})
 		.attr("y", function(d, i) {
 			return arc.centroid(d)[1];
 		})
 		.attr("text-anchor", "middle")
-		.attr("style", "fill:#ffffff;font-size:10")
+		.attr("style", "fill:#ffffff;font-size:10px")
 		.text(function(d, i) {
 			//console.log(d);
 			var percentage_num = (d.value / value_total) * 100;
@@ -127,5 +130,53 @@ PieChart.graphRender = function(data, parameters, div_id) {
 			//console.log(percentage * 100);
 			return percentage_string.substring(0, end) + "%";
 		});
+
+	var if_title = parameters["if_title"];
+	if(if_title == true) {
+		var title = parameters["title"];
+		var title_font = parameters["title_font"];
+		var title_left = parameters["title_left"];
+		svg.append("text")
+			.attr("class", "pie_chart_title")
+			.attr("x", title_left)
+			.attr("y", (margin.top - title_font.substring(0, 2)) / 2)
+			.attr("style", "font-size:" + title_font)
+			.text(title);
+	}
+
+	var if_legend = parameters["if_legend"];
+	if(if_legend == true) {
+		var legend_left = parameters["legend_left"];
+		svg.selectAll("rect.legend")
+			.data(category_data_total)
+			.enter()
+			.append("rect")
+			.attr("class", "legend")
+			.attr("x", margin.left + radius * 2 + legend_left)
+			.attr("y", function(d, i) {
+				var offset_top = (height - 20 * category_data_total.length) / 2;
+				return i * 20 + offset_top;
+			})
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("fill", function(d, i) {
+				return colors[i % 20];
+			});
+		svg.selectAll("text.legend_text")
+			.data(category_data_total)
+			.enter()
+			.append("text")
+			.attr("class", "legend_text")
+			.attr("x", margin.left + radius * 2 + legend_left + 20)
+			.attr("y", function(d, i) {
+				var offset_top = (height - 20 * category_data_total.length) / 2;
+				return i * 20 + offset_top + 8;
+			})
+			.attr("font-size", "10px")
+			.text(function(d) {
+				var legend_text = Object.keys(d)[0];
+				return legend_text;
+			});
+	}
 
 };

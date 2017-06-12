@@ -132,7 +132,7 @@ BarChart.graphRender = function(data, parameters, div_id) {
 			})
 			.attr("y", function(d) {
 				var y_value = Object.values(d)[0];
-				return margin.top / 2 + y_scale(y_value);
+				return margin.top + y_scale(y_value) - 10;
 			})
 			.attr("font-size", "10px")
 			.text(function(d, i) {
@@ -152,4 +152,18 @@ BarChart.graphRender = function(data, parameters, div_id) {
 		$(div_id + " .x_axis path").hide();
 		$(div_id + " .x_axis .tick line").hide();
 	}
+
+	var if_title = parameters["if_title"];
+	if(if_title == true) {
+		var title = parameters["title"];
+		var title_font = parameters["title_font"];
+		var title_left = parameters["title_left"];
+		svg.append("text")
+			.attr("class", "bar_chart_title")
+			.attr("x", title_left)
+			.attr("y", (margin.top - title_font.substring(0, 2)) / 2)
+			.attr("style", "font-size:" + title_font)
+			.text(title);
+	}
+
 };

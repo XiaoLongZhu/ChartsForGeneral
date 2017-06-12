@@ -15,18 +15,25 @@ BarChartOverall.graphRender = function(data, parameters, div_id) {
 	var category = parameters["category"];
 
 	var max_x_val = 0;
+	var sub_group_name = [];
 	for(var i = 0; i < category.length; i++) {
 		var group_i = data[category[i]];
 		var count_total = 0;
 		for(var j = 0; j < group_i.length; j++) {
 			var count = Object.values(group_i[j])[0];
 			count_total = count_total + count;
+			var sub_group = Object.keys(group_i[j])[0];
+			if(sub_group_name.indexOf(sub_group) == -1) {
+				sub_group_name.push(sub_group);
+			}
 		}
 		//console.log(count_total);
 		if(max_x_val < count_total) {
 			max_x_val = count_total;
 		}
 	}
+	//console.log(sub_group_name);
+
 	var x_scale = d3.scaleLinear()
 		.domain([0, max_x_val])
 		.range([0, width - margin.left - margin.right]);
@@ -55,7 +62,7 @@ BarChartOverall.graphRender = function(data, parameters, div_id) {
 	var colors = d3.schemeCategory10;
 	var padding = parameters["bar_width"];
 	var min_width_text = parameters["min_width_text"];
-	var width_text_factor = parameters["width_text_factor"];
+	var height_text_factor = parameters["height_text_factor"];
 	var width_text_margin = parameters["width_text_margin"];
 	for(var i = 0; i < category.length; i++) {
 		var group_i = data[category[i]];
@@ -107,7 +114,7 @@ BarChartOverall.graphRender = function(data, parameters, div_id) {
 			})
 			.attr("y", function(d) {
 				var y_position = y_scale(category[i]);
-				return y_position + margin.top + padding * width_text_factor;
+				return y_position + margin.top + padding * height_text_factor;
 			})
 			.attr("fill", "#ffffff")
 			.attr("style", "stroke-width:1; stroke:#808080;")
@@ -119,7 +126,7 @@ BarChartOverall.graphRender = function(data, parameters, div_id) {
 					return min_width_text;
 				}
 			})
-			.attr("height", y_scale.bandwidth() - padding * width_text_factor * 2);
+			.attr("height", y_scale.bandwidth() - padding * height_text_factor * 2);
 
 		svg_rec.selectAll("text.bar_count_" + i)
 			.data(group_array)
@@ -144,9 +151,9 @@ BarChartOverall.graphRender = function(data, parameters, div_id) {
 			})
 			.attr("y", function(d) {
 				var y_position = y_scale(category[i]);
-				//return y_position + margin.top + y_scale.bandwidth() / 2 + padding * width_text_factor;
-				var y_offset_text = (y_scale.bandwidth() - padding * width_text_factor * 2) / 2 - 5;
-				return y_position + margin.top + padding * width_text_factor + 10 + y_offset_text;
+				//return y_position + margin.top + y_scale.bandwidth() / 2 + padding * height_text_factor;
+				var y_offset_text = (y_scale.bandwidth() - padding * height_text_factor * 2) / 2 - 5;
+				return y_position + margin.top + padding * height_text_factor + 10 + y_offset_text;
 			})
 			.attr("font-size", "10px")
 			.text(function(d, i) {
@@ -160,4 +167,41 @@ BarChartOverall.graphRender = function(data, parameters, div_id) {
 		$(div_id + " .axis path").hide();
 		$(div_id + " .axis .tick line").hide();
 	}
+
+	var if_legend = parameters["if_legend"];
+	if(if_legend == true) {
+		var legend_top = parameters["legend_top"];
+		var legend_width = parameters["legend_width"];
+		svg.selectAll("rect.legend")
+			.data(sub_group_name)
+			.enter()
+			.append("rect")
+			.attr("class", "legend")
+			.attr("x", function(d, i) {
+				var offset_left = (width - legend_width * sub_group_name.length - margin.left - margin.right) / 2;
+				return i * legend_width + offset_left + margin.left;
+			})
+			.attr("y", height - margin.bottom + legend_top)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("fill", function(d, i) {
+				return colors[i % 10];
+			});
+		svg.selectAll("text.legend_text")
+			.data(sub_group_name)
+			.enter()
+			.append("text")
+			.attr("class", "legend_text")
+			.attr("x", function(d, i) {
+				var offset_left = (width - legend_width * sub_group_name.length - margin.left - margin.right) / 2;
+				return i * legend_width + offset_left + margin.left + 20;
+			})
+			.attr("y", height - margin.bottom + legend_top + 8)
+			.attr("font-size", "10px")
+			.text(function(d) {
+				var legend_text = d;
+				return legend_text;
+			});
+	}
+
 };
