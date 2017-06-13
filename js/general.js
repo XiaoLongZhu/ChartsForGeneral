@@ -48,12 +48,13 @@ $(document).ready(function() {
 		  feel free to specify any kind of combinations
 		  for example, ["Month 1"] for month 1 only
 		  or ["Month 1", "Month 3"] for month 1 and 3 and so on.
-		  then the bar chart can be created automatically.
+		  then the bar chart can be created accordingly.
+		  make sure to get the values right.
 		 */
 		"category": ["Month 1", "Month 2", "Month 3"],
-		"if_title": true,
-		"title": "bar chart",
-		"title_font": "20px", //must be px
+		"if_title": true, //hide or show title
+		"title": "bar chart", // customize the title
+		"title_font": "20px", // customize the font size for title
 		"title_left": 250
 	};
 	var div_id_bar_chart = "#bar_chart";
@@ -82,8 +83,8 @@ $(document).ready(function() {
 	var div_id_pie_chart = "#pie_chart";
 	PieChart.initGraph(data_source, parameters_pie_chart, div_id_pie_chart);
 
-	data_source = "data_source/bar_chart_overall.json";
-	var parameters_bar_chart_overall = {
+	data_source = "data_source/horizonal_chart.json";
+	var parameters_horizonal_chart = {
 		"height": 300,
 		"width": 600,
 		"bar_width": 20,
@@ -102,8 +103,8 @@ $(document).ready(function() {
 		"legend_width": 100,
 		"legend_top": 20
 	};
-	var div_id_bar_chart_overall = "#bar_chart_overall";
-	BarChartOverall.initGraph(data_source, parameters_bar_chart_overall, div_id_bar_chart_overall);
+	var div_id_horizonal_chart = "#horizonal_chart";
+	HorizonalChart.initGraph(data_source, parameters_horizonal_chart, div_id_horizonal_chart);
 
 	data_source = "data_source/line_chart.json";
 	var parameters_line_chart = {
