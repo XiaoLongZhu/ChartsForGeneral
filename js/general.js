@@ -1,19 +1,55 @@
+/*
+ ***************************************************
+ This is the starting point for all js functions
+ 
+ Please specify data sources and parameters for visualizations.
+ 
+ In each visualization, I use "$.getJSON()" from jQuery to get
+ data from data source. If you don't want this style, feel free to
+ change it in specific js file that you want to use in your project.
+ 
+ There is a "initGraph" function for each visualization, which first
+ gets data from data source using "$.getJSON()", then invokes "graphRender"
+ function to draw the visualization. All elements of visualizations are
+ included in <svg></svg>.
+ 
+ You don't need to figure out how it works in "graphRender" function
+ if time is short.
+ ***************************************************
+ */
 $(document).ready(function() {
 
+	//specify the data source for bar chart
 	var data_source = "data_source/bar_chart.json";
+
+	/*
+	 this is the configuration for bar chart
+	 make sure to clearly specify every variable
+	 */
 	var parameters_bar_chart = {
-		"height": 500,
-		"width": 600,
+		"height": 500, // height for svg
+		"width": 600, // width for svg
+		/*
+		 "bar_width" decides the width of bars, 0 is the
+		  min value, which means there is no padding between bars
+		  more big the value, more big the padding between bars
+		 */
 		"bar_width": 5,
-		"x_axis": false,
-		"y_axis": false,
-		"grid_lines": true,
-		"margin": {
+		"x_axis": false, // hide or show x_axis line
+		"y_axis": false, // hide or show y_axis line
+		"grid_lines": true, // hide or show grid lines
+		"margin": { // margin for the chart within svg
 			"top": 100,
 			"left": 40,
 			"right": 30,
 			"bottom": 20
 		},
+		/*
+		  feel free to specify any kind of combinations
+		  for example, ["Month 1"] for month 1 only
+		  or ["Month 1", "Month 3"] for month 1 and 3 and so on.
+		  then the bar chart can be created automatically.
+		 */
 		"category": ["Month 1", "Month 2", "Month 3"],
 		"if_title": true,
 		"title": "bar chart",

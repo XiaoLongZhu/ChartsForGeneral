@@ -36,6 +36,11 @@
 		visualizations, please include those that you need in
 		your project. See details below.
 		
+		So far there are four visualizations available:
+			1. Bar Chart
+			2. Pie Chart
+			3. Horizonal Chart
+			4. Line Chart
 		***************************************************
 		-->
 		<div class="container">
@@ -52,22 +57,29 @@
 			</div>
 			<hr>
 			<div class="row">
+				<!--this is where I put pie chart-->
 				<div class="col-md-12" id="pie_chart"></div>
 			</div>
 			<hr>
 			<div class="row">
+				<!--this is where I put horizonal chart-->
 				<div class="col-md-12" id="bar_chart_overall"></div>
 			</div>
 			<hr>
 			<div class="row">
+				<!--this is where I put line chart-->
 				<div class="col-md-12" id="line_chart"></div>
 			</div>
 		</div>
+		<!--make sure to include jQuery in your project-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<!--make sure to include D3.js in your project-->
 		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<!--general.js contains all configurations-->
 		<script src="js/general.js"></script>
+		<!--these js files represent different visualizations-->
 		<script src="js/bar_chart.js"></script>
 		<script src="js/pie_chart.js"></script>
 		<script src="js/bar_chart_overall.js"></script>
