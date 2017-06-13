@@ -19,6 +19,11 @@
  */
 $(document).ready(function() {
 
+	/*
+	 ##################################
+	 			Bar Chart
+	 ##################################
+	 */
 	//specify the data source for bar chart
 	var data_source = "data_source/bar_chart.json";
 
@@ -54,35 +59,70 @@ $(document).ready(function() {
 		"category": ["Month 1", "Month 2", "Month 3"],
 		"if_title": true, //hide or show title
 		"title": "bar chart", // customize the title
-		"title_font": "20px", // customize the font size for title
-		"title_left": 250
+		"title_font": "20px", // customize the font size for title, ##must be px##
+		"title_left": 250 // the left margin for title
 	};
-	var div_id_bar_chart = "#bar_chart";
+	var div_id_bar_chart = "#bar_chart"; // specify where you want to put this chart
+	/*
+	  after all configurations are done, we need to initalize the graph
+	 */
 	BarChart.initGraph(data_source, parameters_bar_chart, div_id_bar_chart);
 
 	/*
-	 configurations for pie chart 
-	 * */
+	##################################
+				Pie Chart
+	##################################
+	*/
+	/*
+	 this is the configuration for pie chart
+	 make sure to clearly specify every variable
+	 
+	 for pie chart, we use the same data source like
+	 bar chart, so here no specification for "data_source"
+	 */
 	var parameters_pie_chart = {
-		"height": 500,
-		"width": 600,
-		"radius": 200,
+		"height": 500, // height for svg
+		"width": 600, // width for svg
+		"radius": 200, // customize the radius for pie
+		/*
+		 0 is the min value, which means you don't want
+		 a inner blank pie within your pie chart.
+		 if you specify any value bigger than 0,
+		 you will get a inner blank pie inside your pie chart.
+		 this kind of style is also called donut chart
+		 */
 		"inner_radius": 0,
-		"margin": {
+		"margin": { // margin for the chart within svg
 			"top": 70,
 			"left": 50
 		},
+		/*
+		  feel free to specify any kind of combinations
+		  for example, ["Month 1"] for month 1 only
+		  or ["Month 1", "Month 3"] for month 1 and 3 and so on.
+		  then all values will be accumulated and pie chart shows
+		  the overall distribution.
+		  make sure to get the values right.
+		 */
 		"category": ["Month 1"],
-		"if_title": true,
-		"title": "pie chart",
-		"title_font": "20px", //must be px
-		"title_left": 250,
-		"if_legend": true,
-		"legend_left": 20
+		"if_title": true, // hide or show title
+		"title": "pie chart", // customize the title
+		"title_font": "20px", // customize the font size for title, ##must be px##
+		"title_left": 250, // the left margin for title
+		"if_legend": true, // hide or show legend
+		"legend_left": 20 // the left margin for legend, related to pie
 	};
-	var div_id_pie_chart = "#pie_chart";
+	var div_id_pie_chart = "#pie_chart"; // specify where you want to put this chart
+	/*
+	  after all configurations are done, we need to initalize the graph
+	 */
 	PieChart.initGraph(data_source, parameters_pie_chart, div_id_pie_chart);
 
+	/*
+	##################################
+			Horizonal Chart
+	##################################
+	*/
 	data_source = "data_source/horizonal_chart.json";
 	var parameters_horizonal_chart = {
 		"height": 300,
@@ -106,6 +146,11 @@ $(document).ready(function() {
 	var div_id_horizonal_chart = "#horizonal_chart";
 	HorizonalChart.initGraph(data_source, parameters_horizonal_chart, div_id_horizonal_chart);
 
+	/*
+	##################################
+				Line Chart
+	##################################
+	*/
 	data_source = "data_source/line_chart.json";
 	var parameters_line_chart = {
 		"height": 500,
