@@ -3,13 +3,51 @@
 
 	<head>
 		<meta charset="utf-8" />
-		<title>Demo</title>
+		<title>Demo of Popular Visualizations in D3.js</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/general.css">
 	</head>
 
 	<body>
+		<!--
+		***************************************************
+		This is a demo about how to create several popular
+		visualizations in D3.js.
+		
+		I tried my best to create those visualizations for
+		general purpose, which means you can directly use
+		them in your own project.
+		
+		Please check "data_source" folder to see what kind
+		of JSON data format is needed in visualizations.
+		
+		Please clearly identify "id" of divs where you want
+		to put visualizations in your html file.
+		
+		"general.js" contains all configurations needed for
+		visualizations. It's enough to only figure out how
+		those configurations work for visualizations if time
+		is short.
+		
+		Please make sure to include jQuery and D3.js source
+		in your project. See details below.
+		
+		In "js" folder, different js files contain different
+		visualizations, please include those that you need in
+		your project. See details below.
+		
+		***************************************************
+		-->
 		<div class="container">
 			<div class="row">
+				<div class="col-md-12">
+					<div class="page-header">
+						<h1>Demo of Popular Visualizations in D3.js</h1>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<!--this is where I put bar chart-->
 				<div class="col-md-12" id="bar_chart"></div>
 			</div>
 			<hr>
