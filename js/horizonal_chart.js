@@ -60,7 +60,7 @@ HorizonalChart.graphRender = function(data, parameters, div_id) {
 
 	var svg_rec = svg.append("g").attr("class", "rect_g");
 	var colors = d3.schemeCategory10;
-	var padding = parameters["bar_width"];
+	var padding = parameters["bar_height"];
 	var min_width_text = parameters["min_width_text"];
 	var height_text_factor = parameters["height_text_factor"];
 	var width_text_margin = parameters["width_text_margin"];
