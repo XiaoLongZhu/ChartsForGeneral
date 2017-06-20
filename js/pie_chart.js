@@ -1,22 +1,65 @@
-var PieChart = {};
+/*
+ *********************************************************
+ ######################
+ This is the source code for Pie Chart
+ Most of the key elements are located within
+ the function "graphRender".
+ The function "initGraph" is just used to
+ retrieve the data needed, which is based on the 
+ function "$.getJSON()" from jQuery.
+ Feel free to modify this in order to fit your needs.
+ ######################
+ *********************************************************
+*/
+
+var PieChart = {}; //Namespace for pie chart
+
+/*
+This function is used to retrieve the data.
+Parameters needed:
+1. data: Data source where you want to retrieve data. It could
+be a json file or a link.
+2. parameters: Configurations for pie chart. See details in general.js
+3. div_id: The div block in your html file where you want to put this
+pie chart.
+*/
 PieChart.initGraph = function(data, parameters, div_id) {
 	$.getJSON(data, function(source_data) {
-
+		/*
+		 When you invoke this function, source_data will
+		 be the data retrieved.
+		 Then the function "graphRender" will create pie
+		 chart basing on this.
+		*/
 		PieChart.graphRender(source_data, parameters, div_id);
 
 	});
 };
 
+/*
+This function is used to create the pie chart.
+Parameters needed:
+1. data: The data retrieved. See details about format in bar_chart.json
+since the pie chart uses the same data format as the bar chart
+2. parameters: Configurations for pie chart. See details in general.js
+3. div_id: The div block in your html file where you want to put this
+pie chart.
+*/
 PieChart.graphRender = function(data, parameters, div_id) {
 
-	$(div_id).html("");
+	$(div_id).html(""); // Before creating, clean the div block
+	/*
+	 These are some parameters configured in general.js
+	 */
 	var height = parameters["height"];
 	var width = parameters["width"];
 	var margin = parameters["margin"];
 	var radius = parameters["radius"];
 	var inner_radius = parameters["inner_radius"];
 	var category = parameters["category"];
-	var colors = d3.schemeCategory20;
+	//This array contains 20 different colors,
+	//each element is like "#xxxxxx", which is color code
+	var colors = d3.schemeCategory20; //It's an array
 
 	var category_data_total = [];
 	var category_init = data[category[0]];

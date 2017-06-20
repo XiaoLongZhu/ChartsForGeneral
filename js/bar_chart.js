@@ -30,13 +30,14 @@ BarChart.initGraph = function(data, parameters, div_id) {
 		 be the data retrieved.
 		 Then the function "graphRender" will create bar
 		 chart basing on this.
-		 */
+		*/
 		BarChart.graphRender(source_data, parameters, div_id);
 	});
 };
 
 /*
 This function is used to create the bar chart.
+Parameters needed:
 1. data: The data retrieved. See details about format in bar_chart.json
 2. parameters: Configurations for bar chart. See details in general.js
 3. div_id: The div block in your html file where you want to put this
