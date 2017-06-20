@@ -22,7 +22,7 @@ be a json file or a link.
 2. parameters: Configurations for bar chart. See details in general.js
 3. div_id: The div block in your html file where you want to put this
 bar chart.
- */
+*/
 BarChart.initGraph = function(data, parameters, div_id) {
 	$.getJSON(data, function(source_data) {
 		/*
@@ -41,7 +41,7 @@ This function is used to create the bar chart.
 2. parameters: Configurations for bar chart. See details in general.js
 3. div_id: The div block in your html file where you want to put this
 bar chart.
- */
+*/
 BarChart.graphRender = function(data, parameters, div_id) {
 
 	$(div_id).html(""); // Before creating, clean the div block
@@ -176,43 +176,64 @@ BarChart.graphRender = function(data, parameters, div_id) {
 
 	//This array contains 10 different colors,
 	//each element is like "#xxxxxx", which is color code
-	var colors = d3.schemeCategory10;
+	var colors = d3.schemeCategory10; //It's an array
+
+	/*
+	 ####################
+	 This part of code tries to initialize bars and numbers
+	 on the top of bars according to the data.
+	*/
 	var padding = parameters["bar_width"];
 	for(var i = 0; i < category_count; i++) {
+		//First get the data for the specific group
 		var category_name = category[i];
-		//console.log(category_name);
 		var category_data = data[category_name];
-		//console.log(colors[i]);
 
+		//Then create bars accordingly
 		svg.selectAll("rect.bar_" + i)
-			.data(category_data)
-			.enter()
+			.data(category_data) //Bind data with bars
+			.enter() //This is from D3, meaning creating elements
 			.append("rect")
 			.attr("class", "bar_" + i)
-			.attr("x", function(d) {
-				var x_name = Object.keys(d)[0];
-				return x_scale(x_name) + margin.left + padding * category_count + (x_scale.bandwidth() / category_count - padding * 2) * i;
+			.attr("x", function(d) { //Set attribute x for rect
+				//d means the single data binded
+				var x_name = Object.keys(d)[0]; //Get the category name
+				//Calculate the appropriate position on horizonal direction
+				//and return this value to attribute x
+				return x_scale(x_name) + margin.left +
+					padding * category_count +
+					(x_scale.bandwidth() / category_count - padding * 2) * i;
 			})
-			.attr("y", function(d) {
-				var y_value = Object.values(d)[0];
+			.attr("y", function(d) { //Set attribute y for rect
+				//d means the single data binded
+				var y_value = Object.values(d)[0]; //Get the value
+				//Calculate the appropriate position on vertical direction
+				//and return this value to attribute y
 				return margin.top + y_scale(y_value);
 			})
+			//Calculate the correct width for bars
 			.attr("width", x_scale.bandwidth() / category_count - padding * 2)
 			.attr("fill", function(d, j) {
+				//Get the specific color for this bar according
+				//to the index of this single data
 				var color = colors[i];
 				return color;
 			})
 			.attr("height", function(d) {
-				var y_value = Object.values(d)[0];
+				var y_value = Object.values(d)[0]; //Get the value
+				//Calculate the appropriate height for this bar
 				return height - margin.top - margin.bottom - y_scale(y_value);
 			});
 
+		//Then create numbers on the top of bars accordingly
 		svg.selectAll("text.bar_count_" + i)
-			.data(category_data)
+			.data(category_data) //Bind data with numbers
 			.enter()
 			.append("text")
 			.attr("class", "bar_count_" + i)
 			.attr("x", function(d) {
+				//Calculate the appropriate position on horizonal direction
+				//and return this value to attribute x
 				var x_name = Object.keys(d)[0];
 				var x_value = x_scale(x_name) +
 					margin.left +
@@ -222,28 +243,36 @@ BarChart.graphRender = function(data, parameters, div_id) {
 				return x_value + offset_text;
 			})
 			.attr("y", function(d) {
+				//Calculate the appropriate position on vertical direction
+				//and return this value to attribute y
 				var y_value = Object.values(d)[0];
 				return margin.top + y_scale(y_value) - 10;
 			})
-			.attr("font-size", "10px")
+			.attr("font-size", "10px") //Set the font size for numbers
 			.text(function(d, i) {
+				//Set the content.
+				//Here we need the specific number.
 				var y_value = Object.values(d)[0];
 				return y_value;
 			});
-
 	}
+	/*
+	 ####################
+	*/
 
+	//Show or hide the y-axis
 	var if_y_axis = parameters["y_axis"];
 	if(if_y_axis != true) {
 		$(div_id + " .y_axis path").hide();
 		$(div_id + " .y_axis .tick line").hide();
 	}
+	//Show or hide the x-axis
 	var if_x_axis = parameters["x_axis"];
 	if(if_x_axis != true) {
 		$(div_id + " .x_axis path").hide();
 		$(div_id + " .x_axis .tick line").hide();
 	}
-
+	//Show or hide the title
 	var if_title = parameters["if_title"];
 	if(if_title == true) {
 		var title = parameters["title"];
@@ -251,10 +280,10 @@ BarChart.graphRender = function(data, parameters, div_id) {
 		var title_left = parameters["title_left"];
 		svg.append("text")
 			.attr("class", "bar_chart_title")
-			.attr("x", title_left)
+			.attr("x", title_left) //set attribute x for this title
+			//set attribute y for this title
 			.attr("y", (margin.top - title_font.substring(0, 2)) / 2)
 			.attr("style", "font-size:" + title_font)
 			.text(title);
 	}
-
 };
