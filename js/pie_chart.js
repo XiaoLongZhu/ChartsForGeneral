@@ -61,56 +61,103 @@ PieChart.graphRender = function(data, parameters, div_id) {
 	//each element is like "#xxxxxx", which is color code
 	var colors = d3.schemeCategory20; //It's an array
 
+	/*
+	 ####################
+	 This part of code tries to get the categories needed
+	 which will be used in the legend. Then accumulate
+	 values for each category according to the combination
+	 configured in general.js
+	 */
+	//This is the array containing all information
+	//for the pie chart
 	var category_data_total = [];
 	var category_init = data[category[0]];
+	//This loop initializes names for all categories and 
+	//set the value to be 0 for each
 	for(var i = 0; i < category_init.length; i++) {
-		var class_name = Object.keys(category_init[i])[0];
+		var class_name = Object.keys(category_init[i])[0]; // get the name for this category
 		var element_total = {};
-		element_total[class_name] = 0;
+		element_total[class_name] = 0; //initialize and set the value to be 0
 		category_data_total.push(element_total);
 	}
 
+	//This loop tries to accumulate values
 	for(var i = 0; i < category.length; i++) {
-		var category_name = category[i];
-		var category_data = data[category_name];
+		var category_name = category[i]; //get the name for category first
+		var category_data = data[category_name]; //get data for this category
 		var category_count = category_data.length;
 		for(var j = 0; j < category_count; j++) {
-			var class_name = Object.keys(category_data[j])[0];
+			var class_name = Object.keys(category_data[j])[0]; //get the name for this class
+			//search the value in the array "category_data_total"
+			//for this class, trying to accumulate the value
 			for(var k = 0; k < category_data_total.length; k++) {
+				//get the information for this class
+				//in the array "category_data_total"
 				var element_total = category_data_total[k];
-				var element_name_total = Object.keys(element_total)[0];
+				var element_name_total = Object.keys(element_total)[0]; //get the name for this class
+				//if two names are match, means this is
+				//the one we are looking for
 				if(element_name_total == class_name) {
-					var class_value = Object.values(category_data[j])[0];
-					element_total[element_name_total] = element_total[element_name_total] + class_value;
+					var class_value = Object.values(category_data[j])[0]; //get the current value first
+					//then accumulate the current value to the array
+					category_data_total[k][element_name_total] = category_data_total[k][element_name_total] + class_value;
 				}
 			}
 		}
 	}
 
-	var value_total = 0;
+	//here we need to get the total value from the array
+	//in order to calculate the specific percentage for each class
+	var value_total = 0; //first set this value to be 0
 	for(var i = 0; i < category_data_total.length; i++) {
 		var element_value = Object.values(category_data_total[i])[0];
 		value_total = value_total + element_value;
 	}
 	//console.log(category_data_total);
 	//console.log(value_total);
+	/*
+	 ####################
+	*/
 
+	//Initialize an empty svg block
 	var svg = d3.select(div_id).append("svg")
 		.attr("class", "pie_chart")
-		.attr("height", height)
-		.attr("width", width);
+		.attr("height", height) //Define height
+		.attr("width", width); //Define width
 
+	/*
+	 ####################
+	 This part of code tries to construct a function
+	 for calculating how big the slices should be
+	 in the pie
+	*/
 	var pie_function = d3.pie()
 		.sort(function(d) {
+			//By defining this,we want this function to
+			//create slices sorted clockwise according
+			//to the class names
 			return Object.keys(d)[0];
 		})
 		.value(function(d) {
+			//since in the array "category_data_total"
+			//the value for each object decides how big
+			//the slices in the pie should be
+			//this is where we specify this relationship
 			return Object.values(d)[0];
 		});
+	/*
+	 ####################
+	*/
+
+	//define a function for arc with the same
+	//radius like the pie, so we can use this
+	//to get the information like the positions
+	//of centroids for slices, see how it works below
 	var arc = d3.arc()
 		.outerRadius(radius)
 		.innerRadius(inner_radius);
 
+	//define the position of the center for this pie
 	var pie_body = svg.append("g")
 		.attr("class", "pie")
 		.attr("transform", "translate(" +
@@ -118,6 +165,7 @@ PieChart.graphRender = function(data, parameters, div_id) {
 			"," +
 			(radius + margin.top) + ")");
 
+	//initialize the group block for slices
 	var pie_slices = pie_body.append("g")
 		.attr("class", "slices_g");
 	var slices = pie_slices.selectAll("path.arc")
