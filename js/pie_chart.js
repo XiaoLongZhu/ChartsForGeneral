@@ -130,6 +130,9 @@ PieChart.graphRender = function(data, parameters, div_id) {
 	 This part of code tries to construct a function
 	 for calculating how big the slices should be
 	 in the pie
+	 this function can return appropriate starting
+	 angle and ending angle for each slice according
+	 to the data
 	*/
 	var pie_function = d3.pie()
 		.sort(function(d) {
@@ -168,17 +171,25 @@ PieChart.graphRender = function(data, parameters, div_id) {
 	//initialize the group block for slices
 	var pie_slices = pie_body.append("g")
 		.attr("class", "slices_g");
+	/*
+	  initialize all slices in the pie and
+	  bind the data with each one.
+	  here "pie_function" can calculate the 
+	  appropriate size for each slice
+	*/
 	var slices = pie_slices.selectAll("path.arc")
 		.data(pie_function(category_data_total))
 		.enter()
 		.append("path")
 		.attr("class", "arc")
 		.attr("fill", function(d, i) {
-			//console.log(d);
+			//initialize the color for each slice
 			return colors[i % 20];
 		});
+	//define how slices can be created in terms of transition
 	slices.transition()
 		.attrTween("d", function(d) {
+			//console.log(d);
 			var currentArc = this.__current__;
 
 			if(!currentArc)
@@ -197,22 +208,33 @@ PieChart.graphRender = function(data, parameters, div_id) {
 			};
 		});
 
+	//initialize the group block for numbers in
+	//the centers of slices
 	var detailsG = pie_body.append("g")
 		.attr("class", "details_g");
+	//initialize all numbers in the centers of slices
 	var details_info = detailsG.selectAll("text.details_info")
 		.data(pie_function(category_data_total))
 		.enter()
 		.append("text")
 		.attr("class", "details_info")
+		/*
+		  according to the starting angle
+		  and the ending angle for each slice returned by
+		  "pie_function", calculate the appropriate
+		  x and y coordinates for nmubers
+		  which are positions of centers in slices
+		  returned by function "arc"
+		*/
 		.attr("x", function(d, i) {
-			//console.log(arc.centroid(d));
 			return arc.centroid(d)[0];
 		})
 		.attr("y", function(d, i) {
 			return arc.centroid(d)[1];
 		})
 		.attr("text-anchor", "middle")
-		.attr("style", "fill:#ffffff;font-size:10px")
+		.attr("style", "fill:#ffffff;font-size:10px") //style for number
+		//calculate the appropriate percentage for each number
 		.text(function(d, i) {
 			//console.log(d);
 			var percentage_num = (d.value / value_total) * 100;
@@ -222,6 +244,7 @@ PieChart.graphRender = function(data, parameters, div_id) {
 			return percentage_string.substring(0, end) + "%";
 		});
 
+	//Show or hide the title
 	var if_title = parameters["if_title"];
 	if(if_title == true) {
 		var title = parameters["title"];
@@ -229,20 +252,27 @@ PieChart.graphRender = function(data, parameters, div_id) {
 		var title_left = parameters["title_left"];
 		svg.append("text")
 			.attr("class", "pie_chart_title")
-			.attr("x", title_left)
+			.attr("x", title_left) //set attribute x for this title
+			//set attribute y for this title
 			.attr("y", (margin.top - title_font.substring(0, 2)) / 2)
-			.attr("style", "font-size:" + title_font)
+			.attr("style", "font-size:" + title_font) //style for title
 			.text(title);
 	}
 
+	//Show or hide the legend
 	var if_legend = parameters["if_legend"];
 	if(if_legend == true) {
 		var legend_left = parameters["legend_left"];
+		//each legend is actually a rectangle in the graph
 		svg.selectAll("rect.legend")
 			.data(category_data_total)
 			.enter()
 			.append("rect")
 			.attr("class", "legend")
+			/*
+			 set the position for legend
+			 as well as the size and the color
+			 */
 			.attr("x", margin.left + radius * 2 + legend_left)
 			.attr("y", function(d, i) {
 				var offset_top = (height - 20 * category_data_total.length) / 2;
@@ -253,17 +283,20 @@ PieChart.graphRender = function(data, parameters, div_id) {
 			.attr("fill", function(d, i) {
 				return colors[i % 20];
 			});
+		//initialize the information beside the legend
 		svg.selectAll("text.legend_text")
 			.data(category_data_total)
 			.enter()
 			.append("text")
 			.attr("class", "legend_text")
+			//set attribute x for this title
 			.attr("x", margin.left + radius * 2 + legend_left + 20)
+			//set attribute y for this title
 			.attr("y", function(d, i) {
 				var offset_top = (height - 20 * category_data_total.length) / 2;
 				return i * 20 + offset_top + 8;
 			})
-			.attr("font-size", "10px")
+			.attr("font-size", "10px") //set font size for information
 			.text(function(d) {
 				var legend_text = Object.keys(d)[0];
 				return legend_text;
