@@ -48,7 +48,7 @@ BarChart.graphRender = function(data, parameters, div_id) {
 	$(div_id).html(""); // Before creating, clean the div block
 	/*
 	 These are some parameters configured in general.js
-	 */
+	*/
 	var height = parameters["height"];
 	var width = parameters["width"];
 	var margin = parameters["margin"];
@@ -58,7 +58,7 @@ BarChart.graphRender = function(data, parameters, div_id) {
 	 ####################
 	 This part of code tries to get the categories needed
 	 which will be used in x-axis.
-	 */
+	*/
 	var category_name = category[0];
 	var category_data = data[category_name];
 	var category_x_array = []; // This array will contain the categories in x-axis
@@ -70,11 +70,11 @@ BarChart.graphRender = function(data, parameters, div_id) {
 	//console.log(category_x_array);
 	/*
 	 ####################
-	 */
+	*/
 
 	/*
 	 Construct a scale for x-axis
-	 */
+	*/
 	var x_scale = d3.scaleBand()
 		.domain(category_x_array)
 		.range([0, width - margin.left - margin.right])
@@ -84,7 +84,7 @@ BarChart.graphRender = function(data, parameters, div_id) {
 	 ####################
 	 This part of code tries to get all values needed
 	 which will be used in y-axis.
-	 */
+	*/
 	var category_count = category.length;
 	var category_y_array = []; // This array will contain all values
 	for(var i = 0; i < category_count; i++) {
