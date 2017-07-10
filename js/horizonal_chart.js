@@ -211,12 +211,16 @@ HorizonalChart.graphRender = function(data, parameters, div_id) {
 			.attr("style", "stroke-width:1; stroke:#808080;") // style for borders of the text box
 			.attr("width", function(d) {
 				var rect_width = x_scale(d);
+				//here since we have defined the width for text box
+				//but if the box is wider than the bar
+				//here we let box disappear automatically
 				if(rect_width < min_width_text) {
 					return 0;
 				} else {
 					return min_width_text;
 				}
 			})
+			//height for the text box
 			.attr("height", y_scale.bandwidth() - padding * height_text_factor * 2);
 
 		//create the number information for each sub group
@@ -246,33 +250,38 @@ HorizonalChart.graphRender = function(data, parameters, div_id) {
 				return margin.left + start_point + x_scale(d) - min_width_text * width_text_margin + x_offset_text;
 			})
 			.attr("y", function(d) {
+				//attribute y of starting position for numbers
 				var y_position = y_scale(category[i]);
-				//return y_position + margin.top + y_scale.bandwidth() / 2 + padding * height_text_factor;
 				var y_offset_text = (y_scale.bandwidth() - padding * height_text_factor * 2) / 2 - 5;
 				return y_position + margin.top + padding * height_text_factor + 10 + y_offset_text;
 			})
-			.attr("font-size", "10px")
+			.attr("font-size", "10px") //font size for numbers
 			.text(function(d, i) {
+				//content for numbers
 				return d;
 			});
 
 	}
 
+	//hide or show y axis line
 	var if_y_axis = parameters["y_axis"];
 	if(if_y_axis != true) {
 		$(div_id + " .axis path").hide();
 		$(div_id + " .axis .tick line").hide();
 	}
 
+	//hide or show legend
 	var if_legend = parameters["if_legend"];
 	if(if_legend == true) {
 		var legend_top = parameters["legend_top"];
 		var legend_width = parameters["legend_width"];
+		//here we create rectangles for legend according to names of the sub group
 		svg.selectAll("rect.legend")
 			.data(sub_group_name)
 			.enter()
 			.append("rect")
 			.attr("class", "legend")
+			//set the position for each rectangle
 			.attr("x", function(d, i) {
 				var offset_left = (width - legend_width * sub_group_name.length - margin.left - margin.right) / 2;
 				return i * legend_width + offset_left + margin.left;
@@ -283,18 +292,22 @@ HorizonalChart.graphRender = function(data, parameters, div_id) {
 			.attr("fill", function(d, i) {
 				return colors[i % 10];
 			});
+
+		//here we create text for legend according to names of the sub group
 		svg.selectAll("text.legend_text")
 			.data(sub_group_name)
 			.enter()
 			.append("text")
 			.attr("class", "legend_text")
+			//set the position for each text
 			.attr("x", function(d, i) {
 				var offset_left = (width - legend_width * sub_group_name.length - margin.left - margin.right) / 2;
 				return i * legend_width + offset_left + margin.left + 20;
 			})
 			.attr("y", height - margin.bottom + legend_top + 8)
-			.attr("font-size", "10px")
+			.attr("font-size", "10px") //font size for text
 			.text(function(d) {
+				//content for text
 				var legend_text = d;
 				return legend_text;
 			});
