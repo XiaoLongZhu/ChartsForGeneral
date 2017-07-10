@@ -1,4 +1,28 @@
-var LineChart = {};
+/*
+ *********************************************************
+ ######################
+ This is the source code for Line Chart
+ Most of the key elements are located within
+ the function "graphRender".
+ The function "initGraph" is just used to
+ retrieve the data needed, which is based on the 
+ function "$.getJSON()" from jQuery.
+ Feel free to modify this in order to fit your needs.
+ ######################
+ *********************************************************
+ */
+
+var LineChart = {}; // namespace for line chart
+
+/*
+This function is used to retrieve the data.
+Parameters needed:
+1. data: Data source where you want to retrieve data. It could
+be a json file or a link.
+2. parameters: Configurations for line chart. See details in general.js
+3. div_id: The div block in your html file where you want to put this
+line chart.
+*/
 LineChart.initGraph = function(data, parameters, div_id) {
 	$.getJSON(data, function(source_data) {
 		LineChart.graphRender(source_data, parameters, div_id);
