@@ -214,6 +214,11 @@ LineChart.graphRender = function(data, parameters, div_id) {
 			return y_scale(Object.values(d)[0]) + margin.top;
 		});
 
+	/*
+	 These are some parameters configured in general.js
+	 which are for lines and texts
+	 please see details in general.js
+	*/
 	var line_width = parameters["line_width"];
 	var text_offset_x = parameters["text_offset_x"];
 	var text_offset_y = parameters["text_offset_y"];
