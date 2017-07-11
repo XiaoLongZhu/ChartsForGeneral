@@ -278,6 +278,7 @@ LineChart.graphRender = function(data, parameters, div_id) {
 
 	}
 
+	//show or hide the title
 	var if_title = parameters["if_title"];
 	if(if_title == true) {
 		var title = parameters["title"];
