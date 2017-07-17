@@ -224,58 +224,73 @@ LineChart.graphRender = function(data, parameters, div_id) {
 	var text_offset_y = parameters["text_offset_y"];
 	var text_box_width = parameters["text_box_width"];
 	var text_box_height = parameters["text_box_height"];
+	//create a block for the group of lines
 	var line_group = svg.append("g")
 		.attr("class", "line_g");
 	for(var i = 0; i < category.length; i++) {
 		var current_cate = data[category[i]];
+		//here we draw the specific line for each part in data
 		line_group.selectAll("path.line_" + i)
 			.data([current_cate])
 			.enter()
 			.append("path")
 			.attr("class", "line_" + i)
 			.attr("fill", "none")
+			//style for line
 			.attr("style", "stroke-width:" + line_width + "; stroke:" + colors[i])
 			.attr("stroke-linecap", "round")
+			//this is the function created before for drawing the line
+			//according to points on this line
 			.attr("d", graph_line);
 
+		//then we add the text box for each point
 		line_group.selectAll("rect.line_text_" + i)
 			.data(current_cate)
 			.enter()
+			//each text box is just a rectangle
 			.append("rect")
 			.attr("class", "line_text_" + i)
 			.attr("rx", 5)
 			.attr("ry", 5)
+			//set attribute x for the position of each text box
 			.attr("x", function(d) {
 				var x_name = Object.keys(d)[0];
 				var x_value = x_scale(x_name);
 				return x_value + margin.left - text_offset_x;
 			})
+			//set attribute y for the position of each text box
 			.attr("y", function(d) {
 				var y_value = Object.values(d)[0];
 				return margin.top + y_scale(y_value) - text_offset_y;
 			})
+			//style and width and height for this text box
 			.attr("fill", "#ffffff")
 			.attr("style", "stroke-width:1; stroke:#808080;")
 			.attr("width", text_box_width)
 			.attr("height", text_box_height);
 
+		//then we add the detailed information in each text box
 		line_group.selectAll("text.line_count_" + i)
 			.data(current_cate)
 			.enter()
 			.append("text")
 			.attr("class", "line_count_" + i)
+			//same reason like text box
+			//we need to figure out the starting position
+			//for each number infomation
 			.attr("x", function(d) {
 				var x_name = Object.keys(d)[0];
 				var x_value = x_scale(x_name);
 				var offset = text_box_width / 2 - 5;
 				return x_value + margin.left + offset - text_offset_x;
 			})
+			//attribute y of starting position for numbers
 			.attr("y", function(d) {
 				var y_value = Object.values(d)[0];
 				var offset = text_box_height / 2 + 5;
 				return margin.top + y_scale(y_value) - text_offset_y + offset;
 			})
-			.attr("font-size", "10px")
+			.attr("font-size", "10px") //font size for the number
 			.text(function(d) {
 				var y_value = Object.values(d)[0];
 				return y_value;
@@ -291,9 +306,10 @@ LineChart.graphRender = function(data, parameters, div_id) {
 		var title_left = parameters["title_left"];
 		svg.append("text")
 			.attr("class", "line_chart_title")
+			//position for title
 			.attr("x", title_left)
 			.attr("y", (margin.top - title_font.substring(0, 2)) / 2)
-			.attr("style", "font-size:" + title_font)
+			.attr("style", "font-size:" + title_font) //font size for title
 			.text(title);
 	}
 
